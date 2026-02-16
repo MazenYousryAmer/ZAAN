@@ -37,7 +37,7 @@ class FloatingLabelInput: UITextField {
     }
     
     @IBInspectable
-    var floatingLabelFont: UIFont = UIFont.systemFont(ofSize: 14) {
+    var floatingLabelFont: UIFont = UIFont.systemFont(ofSize: 12) {
         didSet {
             self.floatingLabel.font = self.floatingLabelFont
             self.font = self.floatingLabelFont
@@ -76,7 +76,7 @@ class FloatingLabelInput: UITextField {
             self.addSubview(self.floatingLabel)
             self.layer.borderColor = self.activeBorderColor.cgColor
             
-            self.floatingLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: -10).isActive = true // Place our label 10 pts above the text field
+            self.floatingLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: -3).isActive = true // Place our label 10 pts above the text field
             self.placeholder = ""
         }
         // Floating label may be stuck behind text input. we bring it forward as it was the last item added to the view heirachy

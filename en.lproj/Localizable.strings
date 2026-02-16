@@ -5,3 +5,16 @@
   Created by Mazen Amer, Vodafone on 20/11/2025.
   
 */
+
+//LOGIN
+"login.username.placeholder" = "Name";
+"login.password.placeholder" = "Password";
+"login.login.button.title" = "Login";
+"login.register.button.title" = "Register";
+
+//REGISTER
+"register.username.placeholder" = "Name";
+"register.password.placeholder" = "Password";
+"register.confirm.password.placeholder" = "Confirm Password";
+"register.register.button.title" = "Register";
+
