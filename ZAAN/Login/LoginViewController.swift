@@ -112,7 +112,18 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
-        self.navigationController?.pushViewController(Factory().buildSignupScene(), animated: true)
+        
+        let loginStoryboard = UIStoryboard(name: "Login", bundle: nil)
+        let viewController = loginStoryboard.instantiateViewController(withIdentifier: "SignupViewController") as! SignupViewController
+        let presenter = SignupPresenter()
+        let interactor = SignupInteractor()
+        presenter.viewController = viewController
+        interactor.presenter = presenter
+        viewController.interactor = interactor
+        //return viewController
+        
+//        self.navigationController?.pushViewController(Factory().buildSignupScene(), animated: true)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 
     /*

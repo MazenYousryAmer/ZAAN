@@ -9,8 +9,10 @@ import Foundation
 import FirebaseAuth
 
 protocol RegisterInteractorProtocol: AnyObject {
-    func shouldRegister(name: String?, password: String?, confirmPassword: String?) -> Bool
-    func performRegister(name: String, password: String)
+//    func shouldRegister(name: String?, password: String?, confirmPassword: String?) -> Bool
+    
+    func shouldRegister(firstName: String?, lastName: String?, email: String?, password: String?, confirmPassword: String?) -> Bool
+    func performRegister(email: String, password: String)
 }
 
 class SignupInteractor {
@@ -27,42 +29,45 @@ class SignupInteractor {
 }
 
 extension SignupInteractor: RegisterInteractorProtocol {
-    func shouldRegister(name: String?, password: String?, confirmPassword: String?) -> Bool {
-        guard let name = name, !name.isEmpty else {
-            presenter?.presentInputError(error: RegisterError.NameEmptyError, tag: 1)
+    func shouldRegister(firstName: String?, lastName: String?, email: String?, password: String?, confirmPassword: String?) -> Bool {
+        guard let firstName = firstName, !firstName.isEmpty else {
+            presenter?.presentInputError(error: RegisterError.FirstNameEmptyError, tag: 1)
+            return false
+        }
+        guard let lastName = lastName, !lastName.isEmpty else {
+            presenter?.presentInputError(error: RegisterError.LastNameEmptyError, tag: 2)
+            return false
+        }
+        guard let email = email, !email.isEmpty else {
+            presenter?.presentInputError(error: RegisterError.EmailEmptyError, tag: 3)
+            return false
+        }
+        guard isValidEmail(email) else {
+            presenter?.presentInputError(error: RegisterError.EmailInvalidError, tag: 3)
             return false
         }
         guard let password = password, !password.isEmpty else {
-            presenter?.presentInputError(error: RegisterError.PasswordEmptyError, tag: 2)
+            presenter?.presentInputError(error: RegisterError.PasswordEmptyError, tag: 4)
             return false
         }
-        
         guard let confirmPassword = confirmPassword, !confirmPassword.isEmpty, confirmPassword == password else {
-            presenter?.presentInputError(error: RegisterError.PasswordNotMatchError, tag: 3)
+            presenter?.presentInputError(error: RegisterError.PasswordNotMatchError, tag: 5)
             return false
         }
-        
-//        guard isValidEmail(name) else {
-//            presenter?.presentInputError(error: LoginError.NameInvalidError)
-//            return false
-//        }
         return true
+
     }
     
-    func performRegister(name: String, password: String) {
-        Auth.auth().createUser(withEmail: name, password: password) { authResult, error in
-          if let error = error {
-            // Handle specific errors, e.g., weak password, email already in use
-            print("Error creating user: \(error.localizedDescription)")
-            return
-          }
-          // User registered successfully!
-          if let user = authResult?.user {
-            print("User registered: \(user.email ?? "N/A")")
-            // Now you can access the user object and perform further actions
-            // such as storing additional user data in Cloud Firestore or Firebase Data Connect.
-          }
-        }
-
+    func performRegister(email: String, password: String) {
+        FireBaseAuthWorker().register(email: email, password: password, completion: {[weak self] result in
+            switch result {
+            case.success(let response):
+                print("User signed in: \(response.user.email ?? "N/A")")
+                self?.presenter?.presentSuccessfullRegister()
+            case .failure(let error):
+                print("Error signing in: \(error.localizedDescription)")
+                self?.presenter?.presentRegisterError(error: error.localizedDescription)
+            }
+        })
     }
 }

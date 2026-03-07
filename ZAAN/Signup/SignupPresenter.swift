@@ -9,10 +9,13 @@ import Foundation
 
 // MARK: - Register errors
 enum RegisterError: String {
-    case NameEmptyError = "Please enter your email address"
-    case NameInvalidError = "Please enter a valid email address"
-    case PasswordEmptyError = "Please enter your password"
-    case PasswordNotMatchError = "Password does not match"
+    case FirstNameEmptyError = "register.first.name.error.empty"
+    case LastNameEmptyError = "register.last.name.error.empty"
+    case EmailEmptyError = "register.email.address.error.empty"
+    case EmailInvalidError = "register.email.address.error.invalid"
+    case PasswordEmptyError = "register.password.error.empty"
+    case PasswordNotMatchError = "register.confirm.password.error.empty"
+    
 }
 
 protocol RegisterPresentationLogic: AnyObject {

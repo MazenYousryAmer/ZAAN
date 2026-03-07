@@ -15,12 +15,21 @@ protocol RegisterDisplayLogic: AnyObject {
 class SignupViewController: UIViewController {
     
     //MARK: Iboutlets
-    @IBOutlet var usernameTextField: UITextField!
+    @IBOutlet var firstNameTextField: UITextField!
+    @IBOutlet var firstNameLabel: UILabel!
+    
+    @IBOutlet var lastNameTextField: UITextField!
+    @IBOutlet var lastNameErrorLabel: UILabel!
+    
+    @IBOutlet var emailTextField: UITextField!
+    @IBOutlet var emailErrorLabel: UILabel!
+    
     @IBOutlet var passwordTextField: UITextField!
-    @IBOutlet var confirmPasswordTextField: UITextField!
-    @IBOutlet var usernameErrorLabel: UILabel!
     @IBOutlet var passwordErrorLabel: UILabel!
+
+    @IBOutlet var confirmPasswordTextField: UITextField!
     @IBOutlet var confirmPasswordErrorLabel: UILabel!
+
     @IBOutlet var registerButton: UIButton!
     
     //MARK: Variables
@@ -38,21 +47,27 @@ class SignupViewController: UIViewController {
     }
     
     private func setupLocalizedText() {
-        self.usernameTextField.placeholder = NSLocalizedString("register.username.placeholder", comment: "")
+        self.firstNameTextField.placeholder = NSLocalizedString("register.first.name.placeholder", comment: "")
+        self.lastNameTextField.placeholder = NSLocalizedString("register.last.name.placeholder", comment: "")
+        self.emailTextField.placeholder = NSLocalizedString("register.email.address.placeholder", comment: "")
         self.passwordTextField.placeholder = NSLocalizedString("register.password.placeholder", comment: "")
         self.confirmPasswordTextField.placeholder = NSLocalizedString("register.confirm.password.placeholder", comment: "")
         self.registerButton.setTitle(NSLocalizedString("register.register.button.title", comment: ""), for: .normal)
     }
     
     private func setupCornerRadius() {
-        self.usernameTextField.layer.cornerRadius = 25.0
+        self.firstNameTextField.layer.cornerRadius = 25.0
+        self.lastNameTextField.layer.cornerRadius = 25.0
+        self.emailTextField.layer.cornerRadius = 25.0
         self.passwordTextField.layer.cornerRadius = 25.0
         self.confirmPasswordTextField.layer.cornerRadius = 25.0
         self.registerButton.layer.cornerRadius = 25.0
     }
     
     private func hideErrorLabels() {
-        self.usernameErrorLabel.isHidden = true
+        self.firstNameLabel.isHidden = true
+        self.lastNameErrorLabel.isHidden = true
+        self.emailErrorLabel.isHidden = true
         self.passwordErrorLabel.isHidden = true
         self.confirmPasswordErrorLabel.isHidden = true
     }
@@ -78,8 +93,8 @@ class SignupViewController: UIViewController {
     
     //MARK: Ibaction
     @IBAction func signupButtonPressed(_ sender: Any) {
-        if interactor.shouldRegister(name: usernameTextField.text ?? "", password: passwordTextField.text ?? "", confirmPassword: confirmPasswordTextField.text ?? "") {
-            interactor.performRegister(name: usernameTextField.text ?? "", password: passwordTextField.text ?? "")
+        if interactor.shouldRegister(firstName: firstNameTextField.text ?? "", lastName: lastNameTextField.text ?? "", email: emailTextField.text ?? "", password: passwordTextField.text ?? "", confirmPassword: confirmPasswordTextField.text ?? "") {
+            interactor.performRegister(name: emailTextField.text ?? "", password: passwordTextField.text ?? "")
         }
     }
 
@@ -100,12 +115,18 @@ extension SignupViewController: RegisterDisplayLogic {
         hideErrorLabels()
         switch tag {
         case 1:
-            self.usernameErrorLabel.isHidden = false
-            self.usernameErrorLabel.text = error
+            self.firstNameLabel.isHidden = false
+            self.firstNameLabel.text = error
         case 2:
+            self.lastNameErrorLabel.isHidden = false
+            self.lastNameErrorLabel.text = error
+        case 3:
+            self.emailTextField.isHidden = false
+            self.emailTextField.text = error
+        case 4:
             self.passwordErrorLabel.isHidden = false
             self.passwordErrorLabel.text = error
-        case 3:
+        case 5:
             self.confirmPasswordErrorLabel.isHidden = false
             self.confirmPasswordErrorLabel.text = error
             

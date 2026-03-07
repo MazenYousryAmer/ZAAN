@@ -22,4 +22,21 @@ class FireBaseAuthWorker {
             }
         }
     }
+    
+    func register(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                // Handle specific errors, e.g., weak password, email already in use
+                print("Error creating user: \(error.localizedDescription)")
+                completion(Result.failure(error))
+            }
+            // User registered successfully!
+            if let user = authResult?.user {
+                print("User registered: \(user.email ?? "N/A")")
+                completion(Result.success(authResult!))
+                // Now you can access the user object and perform further actions
+                // such as storing additional user data in Cloud Firestore or Firebase Data Connect.
+            }
+        }
+    }
 }

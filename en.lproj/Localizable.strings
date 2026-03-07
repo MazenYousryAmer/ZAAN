@@ -13,8 +13,15 @@
 "login.register.button.title" = "Register";
 
 //REGISTER
-"register.username.placeholder" = "Name";
+"register.first.name.placeholder" = "First Name";
+"register.last.name.placeholder" = "Last Name";
+"register.email.address.placeholder" = "Email Address";
 "register.password.placeholder" = "Password";
 "register.confirm.password.placeholder" = "Confirm Password";
 "register.register.button.title" = "Register";
-
+"register.first.name.error.empty" = "Please enter your first name";
+"register.last.name.error.empty" = "Please enter your last name";
+"register.email.address.error.empty" = "Please enter your email address";
+"register.email.address.error.invalid" = "Please enter a valid email address";
+"register.password.error.empty" = "Please enter your password";
+"register.confirm.password.error.empty" = "Password does not match";
